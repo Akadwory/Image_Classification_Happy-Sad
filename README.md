@@ -72,10 +72,10 @@ The model is trained for 20 epochs with early stopping and model checkpoints ena
 
 ### Plots
 - **Accuracy Plot**:
-![accuracy](results/accuracy.png)
+
   
 - **Loss Plot**:
-![loss](results/loss.png)
+
 
 ## Results
 
