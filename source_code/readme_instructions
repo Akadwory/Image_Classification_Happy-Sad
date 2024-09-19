@@ -1,0 +1,122 @@
+# CNN-Based Emotion Classification (Happy vs Sad)
+
+This repository contains a Convolutional Neural Network (CNN) based image classification model to classify images of human faces as either "Happy" or "Sad." The project is built using TensorFlow/Keras and provides a pipeline for image loading, preprocessing, training, evaluation, and inference.
+
+## Project Overview
+
+- **Task**: Binary classification of facial expressions (happy vs sad).
+- **Model**: Convolutional Neural Network (CNN) with TensorFlow/Keras.
+- **Dataset**: Images of faces categorized into `happy` and `sad`.
+- **Evaluation Metrics**: Accuracy, Precision, Recall.
+- **Tools**: Python, TensorFlow/Keras, OpenCV, Scikit-learn, Matplotlib.
+
+---
+
+## Project Structure
+
+```yaml
+Emotion-Classifier/
+├── data/                                 # Placeholder for dataset (not included in GitHub)
+│   ├── happy/                            # Folder containing images of happy faces
+│   └── sad/                              # Folder containing images of sad faces
+├── models/                               # Saved trained models
+│   └── cnn_emotion_model.h5              # Saved CNN model for future inference
+├── src/                                  # Source code for data loading, preprocessing, model building, training, and evaluation
+│   ├── __init__.py                       # Package initializer
+│   ├── data_loader.py                    # Code for loading and preprocessing data
+│   ├── model.py                          # CNN model definition
+│   ├── train.py                          # Training logic and saving the model
+│   ├── inference.py                      # Running inference on new images
+│   ├── evaluate.py                       # Evaluation metrics (precision, recall, accuracy)
+│   └── utils.py                          # Utility functions (logging, image checking, etc.)
+├── notebooks/                            # Jupyter Notebooks for experimentation and analysis
+│   └── cnn_image_classification.ipynb    # Full notebook for model training and evaluation
+├── results/                              # Contains results and generated plots from training
+│   ├── loss.png                          # Loss plot over epochs
+│   └── accuracy.png                      # Accuracy plot over epochs
+├── requirements.txt                      # Python dependencies
+├── README.md                             # Project documentation 
+
+
+
+Ensure the following packages are installed before running the project:
+pip install tensorflow matplotlib pandas scikit-learn opencv-python
+
+You can also install the dependencies using the requirements.txt:
+pip install -r requirements.txt
+
+Dataset Structure
+Before running the code, make sure to have the dataset organized in the following way:
+data/
+├── happy/
+│   ├── image1.jpg
+│   ├── image2.jpg
+│   └── ...
+└── sad/
+    ├── image1.jpg
+    ├── image2.jpg
+    └── ...
+
+3. Train the Model
+You can train the model using the provided train.py file or the Jupyter notebook (cnn_image_classification.ipynb).
+To train the model using Python:
+python src/train.py
+
+4. Evaluate the Model
+After training, you can evaluate the model on the test dataset:
+python src/evaluate.py
+
+5. Inference on New Images
+Once the model is trained and saved, you can run inference on new images using the inference.py script:
+python src/inference.py --image_path ./data/test_image/happy_sample.png
+
+Replace ./data/test_image/happy_sample.png with the path to the image you'd like to classify.
+
+
+Running the Classifier (Function Execution)
+You can use the function run_emotion_classifier to automate the process of loading, training, evaluating, and predicting:
+def run_emotion_classifier():
+    """
+    Function to set up and execute the EmotionClassifier pipeline.
+    """
+    # Set the path to your data folder
+    data_path = './data'
+
+    # Initialize the classifier
+    emotion_classifier = EmotionClassifier(
+        data_dir=data_path,
+        img_size=(256, 256),
+        batch_size=32,
+        epochs=20,
+        log_dir="logs"
+    )
+
+    # Process, load, and train the model
+    emotion_classifier.process_directory()
+    train_data, val_data, test_data = emotion_classifier.load_data()
+    model = emotion_classifier.build_model()
+    history = emotion_classifier.train(train_data, val_data)
+    emotion_classifier.evaluate(test_data)
+    emotion_classifier.plot_metrics(history)
+    test_image_path = './data/happy/sample_happy_image.png'
+    emotion_classifier.predict(test_image_path)
+
+# Call the function to execute
+run_emotion_classifier()
+
+Model Architecture
+The CNN architecture consists of three convolutional layers followed by max pooling layers. A fully connected dense layer is added before the final sigmoid layer for binary classification.
+
+model = Sequential()
+model.add(Conv2D(32, (3, 3), activation='relu', input_shape=(256, 256, 3)))
+model.add(MaxPooling2D())
+model.add(Conv2D(64, (3, 3), activation='relu'))
+model.add(MaxPooling2D())
+model.add(Conv2D(128, (3, 3), activation='relu'))
+model.add(MaxPooling2D())
+model.add(Flatten())
+model.add(Dense(512, activation='relu'))
+model.add(Dropout(0.5))
+model.add(Dense(1, activation='sigmoid'))
+
+
